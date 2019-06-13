@@ -7,6 +7,7 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { setContext } from 'apollo-link-context'
 import { ApolloProvider } from 'react-apollo-hooks'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 const { REACT_APP_HTTP_ENDPOINT, REACT_APP_WS_ENDPOINT } = process.env
 
@@ -54,8 +55,10 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Header />
-      <Content />
+      <Router>
+        <Header />
+        <Content />
+      </Router>
     </ApolloProvider>
   )
 }
