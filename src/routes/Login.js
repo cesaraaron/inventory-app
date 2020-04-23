@@ -12,8 +12,7 @@ import {
 } from 'rbx'
 import { useMutation } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
-import useReactRouter from 'use-react-router'
-import { AUTH_TOKEN } from '../utils'
+import { useAuth } from '../context/auth-context'
 
 const LOGIN_MUTATION = gql`
   mutation login($phoneNumber: String!, $password: String!) {
@@ -26,8 +25,9 @@ const LOGIN_MUTATION = gql`
 export function Login() {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
-  const { history } = useReactRouter()
-  const login = useMutation(LOGIN_MUTATION, {
+  const { login } = useAuth()
+
+  const loginMutation = useMutation(LOGIN_MUTATION, {
     variables: {
       phoneNumber,
       password
@@ -69,9 +69,8 @@ export function Login() {
                     <Button
                       color="primary"
                       onClick={() => {
-                        login().then(({ data }) => {
-                          localStorage.setItem(AUTH_TOKEN, data.login.token)
-                          history.push('/')
+                        loginMutation().then(({ data }) => {
+                          login(data.login.token)
                         })
                       }}
                     >

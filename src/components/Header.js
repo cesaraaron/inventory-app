@@ -1,10 +1,9 @@
 import React from 'react'
 import { Navbar, Container } from 'rbx'
-import useReactRouter from 'use-react-router'
-import { AUTH_TOKEN } from '../utils'
+import { useAuth } from '../context/auth-context'
 
 export function Header() {
-  const { history } = useReactRouter()
+  const { logout } = useAuth()
 
   return (
     <Navbar>
@@ -15,14 +14,7 @@ export function Header() {
         </Navbar.Brand>
         <Navbar.Menu>
           <Navbar.Segment align="end">
-            <Navbar.Item
-              onClick={() => {
-                localStorage.setItem(AUTH_TOKEN, null)
-                history.push('/login')
-              }}
-            >
-              Salir
-            </Navbar.Item>
+            <Navbar.Item onClick={logout}>Salir</Navbar.Item>
           </Navbar.Segment>
         </Navbar.Menu>
       </Container>
